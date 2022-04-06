@@ -1,4 +1,4 @@
-package ConnectReqRespProject.ConnectReqResp;
+package ConnectReqResp;
 
 import java.io.File;
 import java.util.Date;

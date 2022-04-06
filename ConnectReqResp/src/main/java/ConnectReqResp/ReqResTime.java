@@ -1,4 +1,4 @@
-package ConnectReqRespProject.ConnectReqResp;
+package ConnectReqResp;
 
 import java.util.Calendar;
 
@@ -80,7 +80,7 @@ public class ReqResTime {
 		for (String Folder : Folders) {
 			String SubFolder = baseFolderName + Folder + "\\";
 			System.out.println(SubFolder);
-			File outFile = new File(Folder + "_CreateOrderReqRes.csv");
+			File outFile = new File(Folder + System.currentTimeMillis() + ".csv");
 			try {
 				if (renameFilesOnly) {
 					renameFiles(SubFolder);
@@ -111,7 +111,7 @@ public class ReqResTime {
 							lineSplits = inLine.split("::");
 							lineDetails = lineSplits[1].split(",");
 
-							if (methodName.contains("nglOrderAPI_createOrder_2")
+							if (methodName.contains("nglOrderAPI_createOrder_")
 									&& Request.contains("------------Request-----------")) {
 								methodName = "nglOrderAPI_createOrder_2";
 								for (String lineDetail : lineDetails) {

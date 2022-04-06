@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="NetAgentSmokeTest">
-	<test thread-count="5" name="NetAgentSmoke">
+<suite name="ConnectReqResp">
+	<test thread-count="5" name="ConnectReqResp">
 		<classes>
-			<class name="ConnectReqRespProject.ConnectReqResp.ReqResTime"></class>
+			<class name="ConnectReqResp.ReqResTime"></class>
 		</classes>
 	</test>
 	<!-- NASmoke -->
