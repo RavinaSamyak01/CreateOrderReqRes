@@ -81,6 +81,9 @@ public class ReqResTime {
 			String SubFolder = baseFolderName + Folder + "\\";
 			System.out.println(SubFolder);
 			File outFile = new File(Folder + System.currentTimeMillis() + ".csv");
+			bw = new BufferedWriter(new FileWriter(outFile, true));
+			bw.write("Date" + ", " + "RequestTime" + ", " + "ResponseTime" + "," + "MethodName" + "," + "TimeDifference"
+					+ "\r\n");
 			try {
 				if (renameFilesOnly) {
 					renameFiles(SubFolder);
@@ -96,7 +99,6 @@ public class ReqResTime {
 					System.out.println("Processing..." + inFile.getAbsolutePath());
 
 					br = new BufferedReader(new FileReader(inFile));
-					bw = new BufferedWriter(new FileWriter(outFile, true));
 
 					while ((inLine = br.readLine()) != null) {
 //					System.out.println(inLine);
@@ -113,7 +115,6 @@ public class ReqResTime {
 
 							if (methodName.contains("nglOrderAPI_createOrder_")
 									&& Request.contains("------------Request-----------")) {
-								methodName = "nglOrderAPI_createOrder_2";
 								for (String lineDetail : lineDetails) {
 									if (lineDetail.contains("TT[")) {
 										ttInx = lineDetail.indexOf("TT[");
@@ -169,6 +170,7 @@ public class ReqResTime {
 								if (ttValue > 5000.0) {
 									System.out.println(file + "\t" + inLine);
 								}
+
 								bw.write(ed + ", " + et + ", " + eRt + "," + methodName.trim() + "," + Math.abs(ttValue)
 										+ "\r\n");
 								// System.out.println(ed+" "+et+","+methodName.trim() + "," + Math.abs(ttValue)
@@ -180,8 +182,6 @@ public class ReqResTime {
 					}
 					br.close();
 
-					bw.close();
-
 				}
 			} catch (Exception e) {
 				System.out.println(e.toString());
@@ -189,15 +189,15 @@ public class ReqResTime {
 				System.out.println(inLine);
 				System.out.println(methodName + "\t ::TT::" + TT + "\t::ST::" + ST);
 			}
-
+			bw.close();
 			// --Send Email
 			String subject = "Selenium Automation Script: Create Order Request/Response Time";
-			String File = ".\\NetAgent server_CreateOrderReqRes.csv";
+			String AttFile = outFile.getAbsolutePath();
+			String File = AttFile;
 			try {
 				msg.append("Please check attached file for details");
-				// asharma@samyak.com,sdas@samyak.com,pgandhi@samyak.com,byagnik@samyak.com,pdoshi@samyak.com
-				Email.sendMail("ravina.prajapati@samyak.com,asharma@samyak.com,parth.doshi@samyak.com", subject,
-						msg.toString(), File);
+				// ,asharma@samyak.com,parth.doshi@samyak.com
+				Email.sendMail("ravina.prajapati@samyak.com", subject, msg.toString(), File);
 			} catch (Exception ex) {
 				Logger.getLogger(RelationNotification.class.getName()).log(Level.SEVERE, null, ex);
 			}
